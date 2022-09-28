@@ -55,11 +55,11 @@ func main() {
 		for scanner.Scan() {
 			sem <- 1
 			wg.Add(1)
-			go func() {
-				doResolve(scanner.Text())
+			go func(line string) {
+				doResolve(line)
 				<-sem
 				wg.Done()
-			}()
+			}(scanner.Text())
 		}
 
 		if scanner.Err() != nil {
